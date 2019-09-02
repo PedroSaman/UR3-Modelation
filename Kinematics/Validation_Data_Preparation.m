@@ -4,7 +4,7 @@ function [theta,d_theta,d_d_theta,torque,time] = Validation_Data_Preparation()
     %dados_aleatorios.mat
     %dados_base.mat
     %dados_j5.mat
-    load ('~/Desktop/UR3 Modelation/MAT files/dados_base.mat');
+    load ('~/Documents/Git/UR3-Modelation/MAT files/dados_j5.mat');
 
     time = dados(:,1);
     theta_J1 = dados(:,2);
@@ -25,14 +25,6 @@ function [theta,d_theta,d_d_theta,torque,time] = Validation_Data_Preparation()
     theta_J6 = dados(:,17);
     d_theta_J6 = dados(:,18);
     torque_J6 = dados(:,19);
-
-    %hold on
-    %plot(time,theta_J1);
-    %plot(time,theta_J2);
-    %plot(time,theta_J3);
-    %plot(time,theta_J4);
-    %plot(time,theta_J5);
-    %plot(time,theta_J6);
 
     time2 = diff(time);
     d_dtheta_J1 = diff(d_theta_J1);
