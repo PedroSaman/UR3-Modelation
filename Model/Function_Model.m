@@ -1,4 +1,4 @@
-function [Tau] = Function_Model(q,d_q,d_d_q,omega,d_omega,f7,t7,theta)
+function [Tau] = Function_Model(theta,q,omega,d_omega,alpha,f7,t7)
     
     %theta = [r0_c1;r1_c2;r2_c3;r3_c4;r4_c5;r6_c5;r0_1;r1_2;r2_3;r3_4;r4_5;r5_6
     %         I1;I2;I3;I4;I5;I6;mass]
@@ -46,9 +46,7 @@ function [Tau] = Function_Model(q,d_q,d_d_q,omega,d_omega,f7,t7,theta)
     m4 = theta(94);
     m5 = theta(95);
     m6 = theta(96);
-    
-    
-    %Rotation matrix
+ %Rotation matrix
     R0_1 = ([cos(q(1)-pi/2) -sin(q(1)-pi/2) 0;sin(q(1)-pi/2) cos(q(1)-pi/2) 0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
     R1_2 = ([cos(q(2)+pi/2) -sin(q(2)+pi/2) 0;sin(q(2)+pi/2) cos(q(2)+pi/2) 0; 0 0 1]*[1 0 0; 0 cos(0) -sin(0); 0 sin(0) cos(0)]);
     R2_3 = ([cos(q(3)) -sin(q(3)) 0;sin(q(3)) cos(q(3)) 0; 0 0 1]*[1 0 0; 0 cos(0) -sin(0); 0 sin(0) cos(0)]);
@@ -73,39 +71,39 @@ function [Tau] = Function_Model(q,d_q,d_d_q,omega,d_omega,f7,t7,theta)
     %Forward Recursion
     
     %Link1
-    omega1 = omega(1);
-    alpha1 = b1*d_d_q(1) + cross(omega1,b1*d_q(1));
-    a_c1 = cross(d_omega(1),r0_1) + cross(omega1,cross(omega1,r0_1));
-    a_e1 = cross(d_omega(1),r0_c1) + cross(omega1,cross(omega1,r0_c1));
+    omega1 = omega(1:3,1);
+    alpha1 = alpha(1:3,1);
+    a_c1 = cross(d_omega(1:3,1),r0_1) + cross(omega1,cross(omega1,r0_1));
+    a_e1 = cross(d_omega(1:3,1),r0_c1) + cross(omega1,cross(omega1,r0_c1));
     
     %Link2
-    omega2 = omega(2);
-    alpha2 = R1_2'*alpha1 +b2*d_d_q(2) + cross(omega2,b2*d_q(2));
-    a_c2 = R1_2'*a_c1 + cross(d_omega(2),r1_2) + cross(omega2,cross(omega2,r1_2));
-    a_e2 = R1_2'*a_e1 + cross(d_omega(2),r1_c2) + cross(omega2,cross(omega2,r1_c2));
+    omega2 = omega(4:6,1);
+    alpha2 = alpha(4:6,1);
+    a_c2 = R1_2'*a_e1 + cross(d_omega(4:6,1),r1_2) + cross(omega2,cross(omega2,r1_2));
+    a_e2 = R1_2'*a_e1 + cross(d_omega(4:6,1),r1_c2) + cross(omega2,cross(omega2,r1_c2));
 
     %Link3
-    omega3 = omega(3);
-    alpha3 = R2_3'*alpha2 +b3*d_d_q(3) + cross(omega3,b3*d_q(3));
-    a_c3 = R2_3'*a_c2 + cross(d_omega(2),r2_3) + cross(omega3,cross(omega3,r2_3));
-    a_e3 = R2_3'*a_e2 + cross(d_omega(2),r2_c3) + cross(omega3,cross(omega3,r2_c3));    
+    omega3 = omega(7:9,1);
+    alpha3 = alpha(7:9,1);
+    a_c3 = R2_3'*a_e2 + cross(d_omega(7:9,1),r2_3) + cross(omega3,cross(omega3,r2_3));
+    a_e3 = R2_3'*a_e2 + cross(d_omega(7:9,1),r2_c3) + cross(omega3,cross(omega3,r2_c3));    
     
     %Link4
-    omega4 = omega(4);
-    alpha4 = R3_4'*alpha3 +b4*d_d_q(4) + cross(omega4,b4*d_q(4));
-    a_c4 = R3_4'*a_c3 + cross(d_omega(3),r3_4) + cross(omega4,cross(omega4,r3_4));
-    a_e4 = R3_4'*a_e3 + cross(d_omega(3),r3_c4) + cross(omega4,cross(omega4,r3_c4));
+    omega4 = omega(10:12,1);
+    alpha4 = alpha(10:12,1);
+    a_c4 = R3_4'*a_e3 + cross(d_omega(10:12,1),r3_4) + cross(omega4,cross(omega4,r3_4));
+    a_e4 = R3_4'*a_e3 + cross(d_omega(10:12,1),r3_c4) + cross(omega4,cross(omega4,r3_c4));
 
     %Link5
-    omega5 = omega(5);
-    alpha5 = R4_5'*alpha4 +b5*d_d_q(5) + cross(omega5,b5*d_q(5));
-    a_c5 = R4_5'*a_c4 + cross(d_omega(4),r4_5) + cross(omega5,cross(omega5,r4_5));
-    a_e5 = R4_5'*a_e4 + cross(d_omega(4),r4_c5) + cross(omega5,cross(omega5,r4_c5));
+    omega5 = omega(13:15,1);
+    alpha5 = alpha(13:15,1);
+    a_c5 = R4_5'*a_e4 + cross(d_omega(13:15,1),r4_5) + cross(omega5,cross(omega5,r4_5));
+    a_e5 = R4_5'*a_e4 + cross(d_omega(13:15,1),r4_c5) + cross(omega5,cross(omega5,r4_c5));
     
     %Link6
-    omega6 = omega(6);
-    alpha6 = R5_6'*alpha5 +b5*d_d_q(6) + cross(omega6,b6*d_q(6));
-    a_c6 = R5_6'*a_c5 + cross(d_omega(5),r5_6) + cross(omega6,cross(omega6,r5_6));
+    omega6 = omega(16:18,1);
+    alpha6 = alpha(16:18,1);
+    a_c6 = R5_6'*a_e5 + cross(d_omega(16:18,1),r5_6) + cross(omega6,cross(omega6,r5_6));
     %a_e6 = R5_6'*a_e5 + cross(d_omega(5),r5_c6) + cross(omega6,cross(omega6,r5_c6));
 
     %Recursão para trás
