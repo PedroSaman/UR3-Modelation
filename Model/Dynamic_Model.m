@@ -5,6 +5,14 @@ function [Tau] = Function_Model(theta,q,omega,d_omega,alpha,f7,t7)
     %All the 'r'are vectors (3x1), I1 to I6 are Inertia Matrix (6x6), mass is a vector (1X6)
     %f7 and t7 are end-effector relative and both are vectors (3X1)
 
+    %Pre Alocation
+    t1dyn = zeros(1,length(q));
+    t2dyn = zeros(1,length(q));
+    t3dyn = zeros(1,length(q));
+    t4dyn = zeros(1,length(q));
+    t5dyn = zeros(1,length(q));
+    t6dyn = zeros(1,length(q));
+    
     %Distance parameters
     r0_c1 = [theta(1);theta(2);theta(3)];
     r1_c2 = [theta(4);theta(5);theta(6)];
