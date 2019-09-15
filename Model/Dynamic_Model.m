@@ -1,4 +1,4 @@
-function [Tau] = Function_Model(theta,q,omega,d_omega,alpha,f7,t7)
+function [Tau] = Dynamic_Model(theta,q,omega,d_omega,alpha,f7,t7)
     
     %theta = [r0_c1;r1_c2;r2_c3;r3_c4;r4_c5;r6_c5;r0_1;r1_2;r2_3;r3_4;r4_5;r5_6
     %         I1;I2;I3;I4;I5;I6;mass]
