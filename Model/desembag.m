@@ -56,7 +56,7 @@ function desembag(filtro)
         dados_filtro(2,:) = dados(:,4);
         dado = dados_filtro;
         save('untitled.mat','dado');
-        simout = sim('filtro_passa_baixa','SrcWorkspace','current');
+        simout = sim('ButterWorth_filter','SrcWorkspace','current');
         T1a = T1;
         T1 = simout.simout;
         figure(1)
@@ -72,7 +72,7 @@ function desembag(filtro)
         dados_filtro(2,:) = dados(:,7);
         dado = dados_filtro;
         save('untitled.mat','dado');
-        simout = sim('filtro_passa_baixa','SrcWorkspace','current');
+        simout = sim('ButterWorth_filter','SrcWorkspace','current');
         T2a = T2;
         T2 = simout.simout;
         figure(2)
@@ -87,7 +87,7 @@ function desembag(filtro)
         dados_filtro(2,:) = dados(:,10);
         dado = dados_filtro;
         save('untitled.mat','dado');
-        simout = sim('filtro_passa_baixa','SrcWorkspace','current');
+        simout = sim('ButterWorth_filter','SrcWorkspace','current');
         T3a = T3;
         T3 = simout.simout;
         figure(3)
@@ -102,7 +102,7 @@ function desembag(filtro)
         dados_filtro(2,:) = dados(:,13);
         dado = dados_filtro;
         save('untitled.mat','dado');
-        simout = sim('filtro_passa_baixa','SrcWorkspace','current');
+        simout = sim('ButterWorth_filter','SrcWorkspace','current');
         T4a = T4;
         T4 = simout.simout;
         figure(4)
@@ -117,7 +117,7 @@ function desembag(filtro)
         dados_filtro(2,:) = dados(:,16);
         dado = dados_filtro;
         save('untitled.mat','dado');
-        simout = sim('filtro_passa_baixa','SrcWorkspace','current');
+        simout = sim('ButterWorth_filter','SrcWorkspace','current');
         T5a = T5;
         T5 = simout.simout;
         figure(5)
@@ -133,7 +133,7 @@ function desembag(filtro)
         dados_filtro(2,:) = dados(:,19);
         dado = dados_filtro;
         save('untitled.mat','dado');
-        simout = sim('filtro_passa_baixa','SrcWorkspace','current');
+        simout = sim('ButterWorth_filter','SrcWorkspace','current');
         T6a = T6;
         T6 = simout.simout;
         figure(6)
