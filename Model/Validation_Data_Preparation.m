@@ -1,10 +1,11 @@
-function [q,d_q,d_d_q,torque,time,omega,d_omega,alpha] = Validation_Data_Preparation()
+ function [q,d_q,d_d_q,torque,time,omega,d_omega,alpha] = Validation_Data_Preparation()
     clear
     clc
     %dados_aleatorios.mat
     %dados_base.mat
     %dados_j5.mat
-    load ('~/Documents/Git/UR3-Modelation/MAT files/dados_base.mat');
+    %id_data
+    load ('~/Documents/Git/UR3-Modelation/MAT files/Id_data.mat');
     
     time = dados(:,1);
     theta_J1 = dados(:,2);
