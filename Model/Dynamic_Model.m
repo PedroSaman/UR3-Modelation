@@ -4,7 +4,7 @@ function [Tau] = Dynamic_Model(theta,q,omega,d_omega,alpha,f7,t7)
     %         I1;I2;I3;I4;I5;I6;mass]
     %All the 'r'are vectors (3x1), I1 to I6 are Inertia Matrix (6x6), mass is a vector (1X6)
     %f7 and t7 are end-effector relative and both are vectors (3X1)
-
+    
     %Pre Alocation
     t1dyn = zeros(1,length(q));
     t2dyn = zeros(1,length(q));
@@ -59,11 +59,11 @@ function [Tau] = Dynamic_Model(theta,q,omega,d_omega,alpha,f7,t7)
 
         %Rotation matrix
         R0_1 = ([cos(q(i,1)-pi/2) -sin(q(i,1)-pi/2) 0;sin(q(i,1)-pi/2) cos(q(i,1)-pi/2) 0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
-        R1_2 = ([cos(q(i,2)+pi/2) -sin(q(i,2)+pi/2) 0;sin(q(i,2)+pi/2) cos(q(i,2)+pi/2) 0; 0 0 1]*[1 0 0; 0 cos(0) -sin(0); 0 sin(0) cos(0)]);
-        R2_3 = ([cos(q(i,3)) -sin(q(i,3)) 0;sin(q(i,3)) cos(q(i,3)) 0; 0 0 1]*[1 0 0; 0 cos(0) -sin(0); 0 sin(0) cos(0)]);
+        R1_2 = ([cos(q(i,2)+pi/2) -sin(q(i,2)+pi/2) 0;sin(q(i,2)+pi/2) cos(q(i,2)+pi/2) 0; 0 0 1]*[1 0 0; 0 cos(0)    -sin(0)   ; 0 sin(0)    cos(0)]);
+        R2_3 = ([cos(q(i,3))      -sin(q(i,3))      0;sin(q(i,3))      cos(q(i,3))      0; 0 0 1]*[1 0 0; 0 cos(0)    -sin(0)   ; 0 sin(0)    cos(0)]);
         R3_4 = ([cos(q(i,4)+pi/2) -sin(q(i,4)+pi/2) 0;sin(q(i,4)+pi/2) cos(q(i,4)+pi/2) 0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
-        R4_5 = ([cos(q(i,5)+pi) -sin(q(i,5)+pi) 0;sin(q(i,5)+pi) cos(q(i,5)+pi) 0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
-        R5_6 = ([cos(q(i,6)) -sin(q(i,6)) 0;sin(q(i,6)) cos(q(i,6)) 0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
+        R4_5 = ([cos(q(i,5))      -sin(q(i,5))      0;sin(q(i,5))      cos(q(i,5))      0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
+        R5_6 = ([cos(q(i,6))      -sin(q(i,6))      0;sin(q(i,6))      cos(q(i,6))      0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
         R6_7 = eye(3);
         R0_2 = R0_1*R1_2;
         R0_3 = R0_2*R2_3;
@@ -82,28 +82,28 @@ function [Tau] = Dynamic_Model(theta,q,omega,d_omega,alpha,f7,t7)
         %Forward Recursion
 
         %Link1
-        a_c1 = cross(d_omega(1:3,i),r0_1) + cross(omega(1:3,i),cross(omega(1:3,i),r0_1));
-        a_e1 = cross(d_omega(1:3,i),r0_c1) + cross(omega(1:3,i),cross(omega(1:3,i),r0_c1));
+        a_e1 = cross(d_omega(1:3,i),r0_1) + cross(omega(1:3,i),cross(omega(1:3,i),r0_1));
+        a_c1 = cross(d_omega(1:3,i),r0_c1) + cross(omega(1:3,i),cross(omega(1:3,i),r0_c1));
 
         %Link2
-        a_c2 = R1_2'*a_e1 + cross(d_omega(4:6,i),r1_2) + cross(omega(4:6,i),cross(omega(4:6,i),r1_2));
-        a_e2 = R1_2'*a_e1 + cross(d_omega(4:6,i),r1_c2) + cross(omega(4:6,i),cross(omega(4:6,i),r1_c2));
+        a_e2 = R1_2'*a_e1 + cross(d_omega(4:6,i),r1_2) + cross(omega(4:6,i),cross(omega(4:6,i),r1_2));
+        a_c2 = R1_2'*a_e1 + cross(d_omega(4:6,i),r1_c2) + cross(omega(4:6,i),cross(omega(4:6,i),r1_c2));
 
         %Link3
-        a_c3 = R2_3'*a_e2 + cross(d_omega(7:9,i),r2_3) + cross(omega(7:9,i),cross(omega(7:9,i),r2_3));
-        a_e3 = R2_3'*a_e2 + cross(d_omega(7:9,i),r2_c3) + cross(omega(7:9,i),cross(omega(7:9,i),r2_c3));    
+        a_e3 = R2_3'*a_e2 + cross(d_omega(7:9,i),r2_3) + cross(omega(7:9,i),cross(omega(7:9,i),r2_3));
+        a_c3 = R2_3'*a_e2 + cross(d_omega(7:9,i),r2_c3) + cross(omega(7:9,i),cross(omega(7:9,i),r2_c3));    
 
         %Link4
-        a_c4 = R3_4'*a_e3 + cross(d_omega(10:12,i),r3_4) + cross(omega(10:12,i),cross(omega(10:12,i),r3_4));
-        a_e4 = R3_4'*a_e3 + cross(d_omega(10:12,i),r3_c4) + cross(omega(10:12,i),cross(omega(10:12,i),r3_c4));
+        a_e4 = R3_4'*a_e3 + cross(d_omega(10:12,i),r3_4) + cross(omega(10:12,i),cross(omega(10:12,i),r3_4));
+        a_c4 = R3_4'*a_e3 + cross(d_omega(10:12,i),r3_c4) + cross(omega(10:12,i),cross(omega(10:12,i),r3_c4));
 
         %Link5
-        a_c5 = R4_5'*a_e4 + cross(d_omega(13:15,i),r4_5) + cross(omega(13:15,i),cross(omega(13:15,i),r4_5));
-        a_e5 = R4_5'*a_e4 + cross(d_omega(13:15,i),r4_c5) + cross(omega(13:15,i),cross(omega(13:15,i),r4_c5));
+        a_e5 = R4_5'*a_e4 + cross(d_omega(13:15,i),r4_5) + cross(omega(13:15,i),cross(omega(13:15,i),r4_5));
+        a_c5 = R4_5'*a_e4 + cross(d_omega(13:15,i),r4_c5) + cross(omega(13:15,i),cross(omega(13:15,i),r4_c5));
 
         %Link6
-        a_c6 = R5_6'*a_e5 + cross(d_omega(16:18,i),r5_6) + cross(omega(16:18,i),cross(omega(16:18,i),r5_6));
-        %a_e6 = R5_6'*a_e5 + cross(d_omega(5),r5_c6) + cross(omega(16:18,i),cross(omega(16:18,i),r5_c6));
+        %a_e6 = R5_6'*a_e5 + cross(d_omega(16:18,i),r5_6) + cross(omega(16:18,i),cross(omega(16:18,i),r5_6));
+        a_c6 = R5_6'*a_e5 + cross(d_omega(16:18,i),r5_c6) + cross(omega(16:18,i),cross(omega(16:18,i),r5_c6));
 
         %Recursão para trás
 
@@ -142,7 +142,6 @@ function [Tau] = Dynamic_Model(theta,q,omega,d_omega,alpha,f7,t7)
         f1 = R1_2*f2 + m1*a_c1 - m1*g1;
         t1 = R1_2*t2 - cross(f1,r0_c1) + cross(R1_2*f2,r1_c1) + cross(omega(1:3,i),I1*omega(1:3,i)) + I1*alpha(1:3,i);
         t1dyn(i) = b1'*t1;
-
     end
     %Output
     Tau = [t1dyn;t2dyn;t3dyn;t4dyn;t5dyn;t6dyn]';
