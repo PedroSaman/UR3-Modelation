@@ -40,7 +40,7 @@ function [Tau] = Fitness_Function(theta,q,omega,d_omega,alpha,f7,t7,m_torque)
     g0 = [0;0;-9.81];
     
     %Inertia parameters
-    I1 =[theta(37),theta(38),theta(39);theta(40),theta(41),theta(42);theta(43),theta(44),theta(45)];
+    I1 =[theta(36),theta(38),theta(39);theta(40),theta(41),theta(42);theta(43),theta(44),theta(45)];
     I2 =[theta(46),theta(47),theta(48);theta(49),theta(50),theta(51);theta(52),theta(53),theta(54)];
     I3 =[theta(55),theta(56),theta(57);theta(58),theta(59),theta(60);theta(61),theta(62),theta(63)];
     I4 =[theta(64),theta(65),theta(66);theta(67),theta(68),theta(69);theta(70),theta(71),theta(72)];
@@ -48,22 +48,22 @@ function [Tau] = Fitness_Function(theta,q,omega,d_omega,alpha,f7,t7,m_torque)
     I6 =[theta(82),theta(83),theta(84);theta(85),theta(86),theta(87);theta(88),theta(89),theta(90)];
     
     %Mass parameters
-    m5 = theta(91);
-    m6 = theta(92);
+    m1 = theta(91);
+    m2 = theta(92);
     m3 = theta(93);
     m4 = theta(94);
-    m2 = theta(95);
-    m1 = theta(96);
+    m5 = theta(95);
+    m6 = theta(96);
     
     for i=1:length(q)-1
 
         %Rotation matrix
         R0_1 = ([cos(q(i,1)-pi/2) -sin(q(i,1)-pi/2) 0;sin(q(i,1)-pi/2) cos(q(i,1)-pi/2) 0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
-        R1_2 = ([cos(q(i,2)+pi/2) -sin(q(i,2)+pi/2) 0;sin(q(i,2)+pi/2) cos(q(i,2)+pi/2) 0; 0 0 1]*[1 0 0; 0 cos(0) -sin(0); 0 sin(0) cos(0)]);
-        R2_3 = ([cos(q(i,3)) -sin(q(i,3)) 0;sin(q(i,3)) cos(q(i,3)) 0; 0 0 1]*[1 0 0; 0 cos(0) -sin(0); 0 sin(0) cos(0)]);
+        R1_2 = ([cos(q(i,2)+pi/2) -sin(q(i,2)+pi/2) 0;sin(q(i,2)+pi/2) cos(q(i,2)+pi/2) 0; 0 0 1]*[1 0 0; 0 cos(0)    -sin(0)   ; 0 sin(0)    cos(0)]);
+        R2_3 = ([cos(q(i,3))      -sin(q(i,3))      0;sin(q(i,3))      cos(q(i,3))      0; 0 0 1]*[1 0 0; 0 cos(0)    -sin(0)   ; 0 sin(0)    cos(0)]);
         R3_4 = ([cos(q(i,4)+pi/2) -sin(q(i,4)+pi/2) 0;sin(q(i,4)+pi/2) cos(q(i,4)+pi/2) 0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
-        R4_5 = ([cos(q(i,5)+pi) -sin(q(i,5)+pi) 0;sin(q(i,5)+pi) cos(q(i,5)+pi) 0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
-        R5_6 = ([cos(q(i,6)) -sin(q(i,6)) 0;sin(q(i,6)) cos(q(i,6)) 0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
+        R4_5 = ([cos(q(i,5))      -sin(q(i,5))      0;sin(q(i,5))      cos(q(i,5))      0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
+        R5_6 = ([cos(q(i,6))      -sin(q(i,6))      0;sin(q(i,6))      cos(q(i,6))      0; 0 0 1]*[1 0 0; 0 cos(pi/2) -sin(pi/2); 0 sin(pi/2) cos(pi/2)]);
         R6_7 = eye(3);
         R0_2 = R0_1*R1_2;
         R0_3 = R0_2*R2_3;
@@ -82,28 +82,28 @@ function [Tau] = Fitness_Function(theta,q,omega,d_omega,alpha,f7,t7,m_torque)
         %Forward Recursion
 
         %Link1
-        a_c1 = cross(d_omega(1:3,i),r0_1) + cross(omega(1:3,i),cross(omega(1:3,i),r0_1));
-        a_e1 = cross(d_omega(1:3,i),r0_c1) + cross(omega(1:3,i),cross(omega(1:3,i),r0_c1));
+        a_e1 = cross(d_omega(1:3,i),r0_1) + cross(omega(1:3,i),cross(omega(1:3,i),r0_1));
+        a_c1 = cross(d_omega(1:3,i),r0_c1) + cross(omega(1:3,i),cross(omega(1:3,i),r0_c1));
 
         %Link2
-        a_c2 = R1_2'*a_e1 + cross(d_omega(4:6,i),r1_2) + cross(omega(4:6,i),cross(omega(4:6,i),r1_2));
-        a_e2 = R1_2'*a_e1 + cross(d_omega(4:6,i),r1_c2) + cross(omega(4:6,i),cross(omega(4:6,i),r1_c2));
+        a_e2 = R1_2'*a_e1 + cross(d_omega(4:6,i),r1_2) + cross(omega(4:6,i),cross(omega(4:6,i),r1_2));
+        a_c2 = R1_2'*a_e1 + cross(d_omega(4:6,i),r1_c2) + cross(omega(4:6,i),cross(omega(4:6,i),r1_c2));
 
         %Link3
-        a_c3 = R2_3'*a_e2 + cross(d_omega(7:9,i),r2_3) + cross(omega(7:9,i),cross(omega(7:9,i),r2_3));
-        a_e3 = R2_3'*a_e2 + cross(d_omega(7:9,i),r2_c3) + cross(omega(7:9,i),cross(omega(7:9,i),r2_c3));    
+        a_e3 = R2_3'*a_e2 + cross(d_omega(7:9,i),r2_3) + cross(omega(7:9,i),cross(omega(7:9,i),r2_3));
+        a_c3 = R2_3'*a_e2 + cross(d_omega(7:9,i),r2_c3) + cross(omega(7:9,i),cross(omega(7:9,i),r2_c3));    
 
         %Link4
-        a_c4 = R3_4'*a_e3 + cross(d_omega(10:12,i),r3_4) + cross(omega(10:12,i),cross(omega(10:12,i),r3_4));
-        a_e4 = R3_4'*a_e3 + cross(d_omega(10:12,i),r3_c4) + cross(omega(10:12,i),cross(omega(10:12,i),r3_c4));
+        a_e4 = R3_4'*a_e3 + cross(d_omega(10:12,i),r3_4) + cross(omega(10:12,i),cross(omega(10:12,i),r3_4));
+        a_c4 = R3_4'*a_e3 + cross(d_omega(10:12,i),r3_c4) + cross(omega(10:12,i),cross(omega(10:12,i),r3_c4));
 
         %Link5
-        a_c5 = R4_5'*a_e4 + cross(d_omega(13:15,i),r4_5) + cross(omega(13:15,i),cross(omega(13:15,i),r4_5));
-        a_e5 = R4_5'*a_e4 + cross(d_omega(13:15,i),r4_c5) + cross(omega(13:15,i),cross(omega(13:15,i),r4_c5));
+        a_e5 = R4_5'*a_e4 + cross(d_omega(13:15,i),r4_5) + cross(omega(13:15,i),cross(omega(13:15,i),r4_5));
+        a_c5 = R4_5'*a_e4 + cross(d_omega(13:15,i),r4_c5) + cross(omega(13:15,i),cross(omega(13:15,i),r4_c5));
 
         %Link6
-        a_c6 = R5_6'*a_e5 + cross(d_omega(16:18,i),r5_6) + cross(omega(16:18,i),cross(omega(16:18,i),r5_6));
-        %a_e6 = R5_6'*a_e5 + cross(d_omega(5),r5_c6) + cross(omega(16:18,i),cross(omega(16:18,i),r5_c6));
+        %a_e6 = R5_6'*a_e5 + cross(d_omega(16:18,i),r5_6) + cross(omega(16:18,i),cross(omega(16:18,i),r5_6));
+        a_c6 = R5_6'*a_e5 + cross(d_omega(16:18,i),r5_c6) + cross(omega(16:18,i),cross(omega(16:18,i),r5_c6));
 
         %Recursão para trás
 
@@ -152,5 +152,6 @@ function [Tau] = Fitness_Function(theta,q,omega,d_omega,alpha,f7,t7,m_torque)
         end
     end
     
+    Tau/length(q)
     Tau = sum(Tau)/length(q)/6;
 end
