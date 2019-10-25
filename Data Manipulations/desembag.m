@@ -1,5 +1,5 @@
 function desembag(filtro)
-    bag = rosbag('~/Documents/Git/UR3-Modelation/MAT files/2019-10-03-15-41-18.bag');
+    bag = rosbag('~/Documents/Git/UR3-Modelation/MAT files/2019-10-18-16-14-06.bag');
     msg = readMessages(bag);
 
     time = zeros(length(msg),1);
