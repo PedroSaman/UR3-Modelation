@@ -10,8 +10,9 @@ function [Tau] = Dynamic_Model(theta,q,omega,d_omega,alpha,f7,t7)
     %Inertia matrix are all symetric. 
     
     addpath '~/Documents/Git/UR3-Modelation/Data Manipulations';
-    
+
     %Pre Alocation
+    
     t1dyn = zeros(1,length(q));
     t2dyn = zeros(1,length(q));
     t3dyn = zeros(1,length(q));
@@ -19,6 +20,11 @@ function [Tau] = Dynamic_Model(theta,q,omega,d_omega,alpha,f7,t7)
     t5dyn = zeros(1,length(q));
     t6dyn = zeros(1,length(q));
 
+    %z0 axis orientation
+    z0 = [0;0;1];
+
+    %Gravity
+    g0 = [0;0;-9.81];
 
     %ri_cj is the distance between frame i and body j in meters.
     %This is the body center of mass. Because body j is located at i frame.
@@ -36,12 +42,6 @@ function [Tau] = Dynamic_Model(theta,q,omega,d_omega,alpha,f7,t7)
     r3_4 = [theta(28);theta(29);theta(30)];
     r4_5 = [theta(31);theta(32);theta(33)];
     r5_6 = [theta(34);theta(35);theta(36)];
-
-    %z0 axis orientation
-    z0 = [0;0;1];
-
-    %Gravity
-    g0 = [0;0;-10];
 
     %Inertia parameters
     I1 =[theta(37),theta(38),theta(39);theta(40),theta(41),theta(42);theta(43),theta(44),theta(45)];
@@ -69,7 +69,6 @@ function [Tau] = Dynamic_Model(theta,q,omega,d_omega,alpha,f7,t7)
         R0_3 = R0_2*R2_3;
         R0_4 = R0_3*R3_4;
         R0_5 = R0_4*R4_5;
-
         RJ0_1 = [cos(q(i,1)) -sin(q(i,1)) 0;sin(q(i,1)) cos(q(i,1)) 0; 0 0 1];
         RJ1_2 = [cos(q(i,2)) -sin(q(i,2)) 0;sin(q(i,2)) cos(q(i,2)) 0; 0 0 1];
         RJ2_3 = [cos(q(i,3)) -sin(q(i,3)) 0;sin(q(i,3)) cos(q(i,3)) 0; 0 0 1];

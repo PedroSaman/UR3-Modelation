@@ -1,4 +1,4 @@
-function [theta,q,d_q,d_d_q,toolbox_torque] = UR3_Model_Toolbox(q,d_q,d_d_q)
+%function [theta,q,d_q,d_d_q,toolbox_torque] = UR3_Model_Toolbox(q,d_q,d_d_q)
     % Using the Denavith Hatenberg Matrix defined in the path below, this
     % function create the dynamic model for the robot, write the torque
     % for each joint given the position, speed and aceleration disired q,
@@ -8,30 +8,30 @@ function [theta,q,d_q,d_d_q,toolbox_torque] = UR3_Model_Toolbox(q,d_q,d_d_q)
     
     load '~/Documents/Git/UR3-Modelation/MAT files/Denavith_Hatenberg_Matrix.mat';
     
-    q(:,1) = 0;
-    q(:,2) = 0;
-    q(:,3) = 0;
-    q(:,4) = 0;
-    q(:,5) = 0;
-    q(:,6) = 0;
+    q(1:2,1) = 0;
+    q(1:2,2) = -pi/2;
+    q(1:2,3) = 0;
+    q(1:2,4) = -pi/2;
+    q(1:2,5) = 0;
+    q(1:2,6) = 0;
     
-    d_q(:,1) = 0;
-    d_q(:,2) = 0;
-    d_q(:,3) = 0;
-    d_q(:,4) = 0;
-    d_q(:,5) = 0;
-    d_q(:,6) = 0;
+    d_q(1:2,1) = 0;
+    d_q(1:2,2) = 0;
+    d_q(1:2,3) = 0;
+    d_q(1:2,4) = 0;
+    d_q(1:2,5) = 0;
+    d_q(1:2,6) = 0;
     
-    d_d_q(:,1) = 0;
-    d_d_q(:,2) = 0;
-    d_d_q(:,3) = 0;
-    d_d_q(:,4) = 0;
-    d_d_q(:,5) = 0;
-    d_d_q(:,6) = 0;
+    d_d_q(1:2,1) = 0;
+    d_d_q(1:2,2) = 0;
+    d_d_q(1:2,3) = 0;
+    d_d_q(1:2,4) = 0;
+    d_d_q(1:2,5) = 1;
+    d_d_q(1:2,6) = 1;
    
     theta = zeros(1,96);
     robot = robotics.RigidBodyTree("DataFormat","row");
-    robot.Gravity = [0 0 -9.81];
+    robot.Gravity = [0 0 -10];
 
     body1 = robotics.RigidBody('body1');
     jnt1 = robotics.Joint('jnt1','revolute');
@@ -66,7 +66,7 @@ function [theta,q,d_q,d_d_q,toolbox_torque] = UR3_Model_Toolbox(q,d_q,d_d_q)
     body6 = robotics.RigidBody('body6');
     jnt6 = robotics.Joint('jnt6','revolute');
     body6.Mass = 6;
-    body6.CenterOfMass = [0 0 0];
+    body6.CenterOfMass = [10 0 10];
     body6.Inertia = [1 1 1 0 0 0];
 
     body7 = robotics.RigidBody('body7');
@@ -119,4 +119,4 @@ function [theta,q,d_q,d_d_q,toolbox_torque] = UR3_Model_Toolbox(q,d_q,d_d_q)
     theta(1,82:90) = [body6.Inertia(1) body6.Inertia(6) body6.Inertia(5) body6.Inertia(6) body6.Inertia(2) body6.Inertia(4) body6.Inertia(5) body6.Inertia(4) body6.Inertia(3)];
     theta(1,91:96) = [body1.Mass body2.Mass body3.Mass body4.Mass body5.Mass body6.Mass];
 
-end
+%end
