@@ -2,7 +2,7 @@ function [R] = Direct_Kinematics(theta)
 %Given 6 Theta angles (deg), this function will return the position (meters) 
 %and orientation (deg) coordinates as a vector R = %[X,Y,Z,Rx,Ry,Rz]
 clc
-load '~/Documents/Git/UR3-Modelation/MAT files/Denavith_Hatenberg_Matrix.mat';
+load ('DH_Toolbox.mat','dh');
 
 theta = deg2rad(theta);
 
