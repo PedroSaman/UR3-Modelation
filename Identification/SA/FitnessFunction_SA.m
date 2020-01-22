@@ -1,10 +1,10 @@
 function [Tau] = FitnessFunction_SA(theta)
     
     alpha = 0;
-    %load('data_validation.mat');
-    load('~/Documents/Git/UR3-Modelation/MAT files/data_training.mat');
+    load('~/Documents/Git/UR3-Modelation/MAT files/training_data.mat');
     normalization = [square_mean(m_torque(:,1)) square_mean(m_torque(:,2)) square_mean(m_torque(:,3)) ...
     square_mean(m_torque(:,4)) square_mean(m_torque(:,5)) square_mean(m_torque(:,6))];
+    addpath '~/Documents/Git/UR3-Modelation/Dynamics'
     torque = Dynamic_Model(theta,q,omega,d_omega,alpha,[0;0;0],[0;0;0]);
     Tau = zeros(1,6);
     for i=1:length(q)-1
