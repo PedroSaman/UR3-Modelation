@@ -1,10 +1,12 @@
-function [output] = data_preparation()    
-    
+function [output] = Data_Generation()    
+% Simulate a trajectory for 6DOF manipulator using a combination of sines
+% and a poly. Works with the simulink file DOF6_Trajectory_simulation.slx
+
     pol = poly([0 1 2.5 5 10 15 20 25 30 35 40 45 50 55 57.5 59 60]);
     t = [0:0.05:60];
     pol = polyval(pol,t)/200000000000000000000;
     pol = [t' pol'];
-    simout = sim('Data_GeneratorDOF6.slx','SrcWorkspace','current');
+    simout = sim('DOF6_Trajectory_simulation.slx','SrcWorkspace','current');
     clc
     
     tout = simout.tout;
