@@ -1,4 +1,6 @@
 function [theta] = estimated_parameters()
+    %Dynamic parameters given by the manufacturer
+    
     m = [2,3.42,1.26,0.8,0.8,2];
     I1 = [0.03408, 0.00002, -0.00425, 0.03529, 0.00008, 0.02156];
     I2 = [0.02814, 0.00005, -0.01561, 0.77068, 0.00002, 0.76943];

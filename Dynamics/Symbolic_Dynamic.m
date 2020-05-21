@@ -1,4 +1,6 @@
 function [Tau] = Symbolic_Dynamic()
+    %Not in use!
+
     % Given the dynamic parameters, force and torque in TCP and the output
     % data from Data_Preparation.m file, this function give the torque in
     % each of the 6 joint motors using the Newton-Euler Formulation.
