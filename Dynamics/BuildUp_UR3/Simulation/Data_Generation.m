@@ -1,4 +1,4 @@
-function [output] = Data_Generation()    
+function [input] = Data_Generation()
 % Simulate a trajectory for 6DOF manipulator using a combination of sines
 % and a poly. Works with the simulink file DOF6_Trajectory_simulation.slx
 
@@ -6,6 +6,9 @@ function [output] = Data_Generation()
     t = [0:0.05:60];
     pol = polyval(pol,t)/200000000000000000000;
     pol = [t' pol'];
+    pos_var = 0;
+    spe_var = 0;
+    ace_var = 0;
     simout = sim('DOF6_Trajectory_simulation.slx','SrcWorkspace','current');
     clc
     
@@ -47,23 +50,23 @@ function [output] = Data_Generation()
     ace6(1) = ace6(3);
     ace6(2) = ace6(3);
     
-    output.tout = tout;
-    output.pos1 = pos1;
-    output.pos2 = pos2;
-    output.pos3 = pos3;
-    output.pos4 = pos4;
-    output.pos5 = pos5;
-    output.pos6 = pos6;
-    output.vel1 = vel1;
-    output.vel2 = vel2;
-    output.vel3 = vel3;
-    output.vel4 = vel4;
-    output.vel5 = vel5;
-    output.vel6 = vel6;
-    output.ace1 = ace1;
-    output.ace2 = ace2;
-    output.ace3 = ace3;
-    output.ace4 = ace4;
-    output.ace5 = ace5;
-    output.ace6 = ace6;
+    input.tout = tout;
+    input.pos1 = pos1;
+    input.pos2 = pos2;
+    input.pos3 = pos3;
+    input.pos4 = pos4;
+    input.pos5 = pos5;
+    input.pos6 = pos6;
+    input.vel1 = vel1;
+    input.vel2 = vel2;
+    input.vel3 = vel3;
+    input.vel4 = vel4;
+    input.vel5 = vel5;
+    input.vel6 = vel6;
+    input.ace1 = ace1;
+    input.ace2 = ace2;
+    input.ace3 = ace3;
+    input.ace4 = ace4;
+    input.ace5 = ace5;
+    input.ace6 = ace6;
 end
