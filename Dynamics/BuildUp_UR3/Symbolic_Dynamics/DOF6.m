@@ -1,4 +1,4 @@
-function [Tau] = DOF6()
+function [Dyn] = DOF6()
     % Medidas do robô
     q = sym('q',[6 1],'real');
     dq = sym('dq',[6 1],'real');
@@ -27,6 +27,7 @@ function [Tau] = DOF6()
     b4 = simplify(R0_4'*R0_3*z0);
     b5 = simplify(R0_5'*R0_4*z0);
     b6 = simplify(R0_6'*R0_5*z0);
+    b6 = [0;b6(2);b6(3)]; %simplified via mapple and b6(1) == 0, but matlab couldn't solve
     
     % Velocidade angular de cada eixo
     omega1 = b1*dq(1);
@@ -131,4 +132,69 @@ function [Tau] = DOF6()
     t1dyn = simplify(b1'*t1);
      
     Tau = [t1dyn;t2dyn;t3dyn;t4dyn;t5dyn;t6dyn];
+    
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Teste para Montar matrizes%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    
+    m1_1 = subs(t1dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[1 0 0 0 0 0 0 0 0 0 0 0 0]);
+    m1_2 = subs(t1dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 1 0 0 0 0 0 0 0 0 0 0 0]);
+    m1_3 = subs(t1dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 1 0 0 0 0 0 0 0 0 0 0]);
+    m1_4 = subs(t1dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 1 0 0 0 0 0 0 0 0 0]);
+    m1_5 = subs(t1dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 1 0 0 0 0 0 0 0 0]);
+    m1_6 = subs(t1dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 0 1 0 0 0 0 0 0 0]);
+    m2_1 = subs(t2dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[1 0 0 0 0 0 0 0 0 0 0 0 0]);
+    m2_2 = subs(t2dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 1 0 0 0 0 0 0 0 0 0 0 0]);
+    m2_3 = subs(t2dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 1 0 0 0 0 0 0 0 0 0 0]);
+    m2_4 = subs(t2dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 1 0 0 0 0 0 0 0 0 0]);
+    m2_5 = subs(t2dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 1 0 0 0 0 0 0 0 0]);
+    m2_6 = subs(t2dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 0 1 0 0 0 0 0 0 0]);
+    m3_1 = subs(t3dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[1 0 0 0 0 0 0 0 0 0 0 0 0]);
+    m3_2 = subs(t3dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 1 0 0 0 0 0 0 0 0 0 0 0]);
+    m3_3 = subs(t3dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 1 0 0 0 0 0 0 0 0 0 0]);
+    m3_4 = subs(t3dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 1 0 0 0 0 0 0 0 0 0]);
+    m3_5 = subs(t3dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 1 0 0 0 0 0 0 0 0]);
+    m3_6 = subs(t3dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 0 1 0 0 0 0 0 0 0]);
+    m4_1 = subs(t4dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[1 0 0 0 0 0 0 0 0 0 0 0 0]);
+    m4_2 = subs(t4dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 1 0 0 0 0 0 0 0 0 0 0 0]);
+    m4_3 = subs(t4dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 1 0 0 0 0 0 0 0 0 0 0]);
+    m4_4 = subs(t4dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 1 0 0 0 0 0 0 0 0 0]);
+    m4_5 = subs(t4dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 1 0 0 0 0 0 0 0 0]);
+    m4_6 = subs(t4dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 0 1 0 0 0 0 0 0 0]);
+    m5_1 = subs(t5dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[1 0 0 0 0 0 0 0 0 0 0 0 0]);
+    m5_2 = subs(t5dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 1 0 0 0 0 0 0 0 0 0 0 0]);
+    m5_3 = subs(t5dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 1 0 0 0 0 0 0 0 0 0 0]);
+    m5_4 = subs(t5dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 1 0 0 0 0 0 0 0 0 0]);
+    m5_5 = subs(t5dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 1 0 0 0 0 0 0 0 0]);
+    m5_6 = subs(t5dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 0 1 0 0 0 0 0 0 0]);
+    m6_1 = subs(t6dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[1 0 0 0 0 0 0 0 0 0 0 0 0]);
+    m6_2 = subs(t6dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 1 0 0 0 0 0 0 0 0 0 0 0]);
+    m6_3 = subs(t6dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 1 0 0 0 0 0 0 0 0 0 0]);
+    m6_4 = subs(t6dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 1 0 0 0 0 0 0 0 0 0]);
+    m6_5 = subs(t6dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 1 0 0 0 0 0 0 0 0]);
+    m6_6 = subs(t6dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6) -g0(3)],[0 0 0 0 0 1 0 0 0 0 0 0 0]);
+    
+    
+    M = [m1_1,m1_2,m1_3,m1_4,m1_5,m1_6;...
+         m2_1,m2_2,m2_3,m2_4,m2_5,m2_6;...
+         m3_1,m3_2,m3_3,m3_4,m3_5,m3_6;...
+         m4_1,m4_2,m4_3,m4_4,m4_5,m4_6;...
+         m5_1,m5_2,m5_3,m5_4,m5_5,m5_6;...
+         m6_1,m6_2,m6_3,m6_4,m6_5,m6_6];
+    
+    ga1 = subs(t1dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6)],[0 0 0 0 0 0 0 0 0 0 0 0]);
+    ga2 = subs(t2dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6)],[0 0 0 0 0 0 0 0 0 0 0 0]);
+    ga3 = subs(t3dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6)],[0 0 0 0 0 0 0 0 0 0 0 0]);
+    ga4 = subs(t4dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6)],[0 0 0 0 0 0 0 0 0 0 0 0]);
+    ga5 = subs(t5dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6)],[0 0 0 0 0 0 0 0 0 0 0 0]);
+    ga6 = subs(t6dyn,[ddq(1) ddq(2) ddq(3) ddq(4) ddq(5) ddq(6) dq(1) dq(2) dq(3) dq(4) dq(5) dq(6)],[0 0 0 0 0 0 0 0 0 0 0 0]);
+    
+    G = [ga1 ga2 ga3 ga4 ga5 ga6]';
+    
+    C0Dq = simplify([t1dyn;t2dyn;t3dyn;t4dyn;t5dyn;t6dyn] - M*ddq - G);
+    
+    Dyn.M = M;
+    Dyn.G = G;
+    Dyn.C0Dq = C0Dq;
+    Dyn.Tau = Tau;
+    
 end

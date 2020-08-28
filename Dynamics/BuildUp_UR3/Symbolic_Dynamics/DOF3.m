@@ -1,4 +1,4 @@
-function [Tau] = DOF3()
+function [Dyn] = DOF3()
     
     q = sym('q',[3 1],'real');
     dq = sym('dq',[3 1],'real');
@@ -24,7 +24,7 @@ function [Tau] = DOF3()
     alpha1 = b1*ddq(1) + cross(omega1,b1*dq(1));
     alpha2 = R1_2'*alpha1 + b2*ddq(2) + cross(omega2,b2*dq(2));
     alpha3 = R2_3'*alpha2 + b3*ddq(3) + cross(omega3,b3*dq(3));
-     
+    
     g0 = [0;0;-sym('g','real')];
     lc1 = [0;sym('lc1y','real');0]; %Distancia entre o frame 0 e o centro de massa 1 em relação ao frame 1
     lc2 = [-sym('lc2x','real');0;sym('lc2z','real')];
@@ -67,4 +67,32 @@ function [Tau] = DOF3()
     t1dyn = simplify(b1'*t1);
      
     Tau = [t1dyn;t2dyn;t3dyn];
+    
+    m1_1 = subs(t1dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3) -g0(3)],[1 0 0 0 0 0 0]);
+    m1_2 = subs(t1dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3) -g0(3)],[0 1 0 0 0 0 0]);
+    m1_3 = subs(t1dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3) -g0(3)],[0 0 1 0 0 0 0]);
+    m2_1 = subs(t2dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3) -g0(3)],[1 0 0 0 0 0 0]);
+    m2_2 = subs(t2dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3) -g0(3)],[0 1 0 0 0 0 0]);
+    m2_3 = subs(t2dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3) -g0(3)],[0 0 1 0 0 0 0]);
+    m3_1 = subs(t3dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3) -g0(3)],[1 0 0 0 0 0 0]);
+    m3_2 = subs(t3dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3) -g0(3)],[0 1 0 0 0 0 0]);
+    m3_3 = subs(t3dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3) -g0(3)],[0 0 1 0 0 0 0]);
+    
+    M = [m1_1,m1_2,m1_3;m2_1,m2_2,m2_3;m3_1,m3_2,m3_3];
+    
+    ga1 = subs(t1dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3)],[0 0 0 0 0 0]);
+    ga2 = subs(t2dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3)],[0 0 0 0 0 0]);
+    ga3 = subs(t3dyn,[ddq(1) ddq(2) ddq(3) dq(1) dq(2) dq(3)],[0 0 0 0 0 0]);
+    
+    G = [ga1;ga2;ga3];
+    
+    C0Dq = [t1dyn;t2dyn;t3dyn] - M*ddq - G;
+    
+    Dyn.M = M;
+    Dyn.G = G;
+    Dyn.C0Dq = C0Dq;
+    Dyn.Tau = Tau;
+   
+    %teste = M*ddq+C0Dq+G;
+    
 end
