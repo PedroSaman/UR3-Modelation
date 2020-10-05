@@ -16,3 +16,9 @@ Model/Estimated_Parameters_Model\.m
 MAT files/Bag_Files/scriptdesembag\.m
 
 Identification/SA/
+
+Controler/Computed Torque Control/
+
+Controler/Manual Parameters UR3/
+
+Controler/Robô Simulado/
