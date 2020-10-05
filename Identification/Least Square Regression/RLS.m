@@ -6,10 +6,10 @@ function [theta1,theta2,theta3,theta4,theta5,theta6,FIT] = RLS()
     l = length(input.tout);
     
     %theta1
-    P=eye(96)*10^6;
-    %lambda=0.998;
-    lambda=1;
-    teta_v(:,1)=zeros(1,96);
+    P=eye(28)*10^6;
+    lambda=0.999;
+    %lambda=1;
+    teta_v(:,1)=zeros(1,28);
     for k=2:0.7*l
         psi_k=psi1(k,:)';
         K_k = (P*psi_k)/(psi_k'*P*psi_k+lambda);
@@ -21,10 +21,10 @@ function [theta1,theta2,theta3,theta4,theta5,theta6,FIT] = RLS()
     clear P teta_v
     
     %theta2
-    P=eye(82)*10^6;
-    %lambda=0.998;
-    lambda=1;
-    teta_v(:,1)=zeros(1,82);
+    P=eye(31)*10^6;
+    lambda=0.9979;
+    %lambda=1;
+    teta_v(:,1)=zeros(1,31);
     for k=2:0.7*l
         psi_k=psi2(k,:)';
         K_k = (P*psi_k)/(psi_k'*P*psi_k+lambda);
@@ -36,10 +36,10 @@ function [theta1,theta2,theta3,theta4,theta5,theta6,FIT] = RLS()
     clear P teta_v
     
     %theta3
-    P=eye(58)*10^6;
-    %lambda=0.998;
-    lambda=1;
-    teta_v(:,1)=zeros(1,58);
+    P=eye(26)*10^6;
+    lambda=0.9979;
+    %lambda=1;
+    teta_v(:,1)=zeros(1,26);
     for k=2:0.7*l
         psi_k=psi3(k,:)';
         K_k = (P*psi_k)/(psi_k'*P*psi_k+lambda);
@@ -51,10 +51,10 @@ function [theta1,theta2,theta3,theta4,theta5,theta6,FIT] = RLS()
     clear P teta_v
     
     %theta4
-    P=eye(33)*10^6;
-    %lambda=0.998;
-    lambda=1;
-    teta_v(:,1)=zeros(1,33);
+    P=eye(20)*10^6;
+    lambda=0.999;
+    %lambda=1;
+    teta_v(:,1)=zeros(1,20);
     for k=2:0.7*l
         psi_k=psi4(k,:)';
         K_k = (P*psi_k)/(psi_k'*P*psi_k+lambda);
@@ -66,10 +66,10 @@ function [theta1,theta2,theta3,theta4,theta5,theta6,FIT] = RLS()
     clear P teta_v
     
     %theta5
-    P=eye(15)*10^6;
-    %lambda=0.998;
-    lambda=1;
-    teta_v(:,1)=zeros(1,15);
+    P=eye(14)*10^6;
+    lambda=0.999;
+    %lambda=1;
+    teta_v(:,1)=zeros(1,14);
     for k=2:0.7*l
         psi_k=psi5(k,:)';
         K_k = (P*psi_k)/(psi_k'*P*psi_k+lambda);
@@ -81,10 +81,10 @@ function [theta1,theta2,theta3,theta4,theta5,theta6,FIT] = RLS()
     clear P teta_v
     
     %theta6
-    P=eye(2)*10^6;
-    %lambda=0.998;
-    lambda=1;
-    teta_v(:,1)=zeros(1,2);
+    P=eye(3)*10^6;
+    lambda=0.999;
+    %lambda=1;
+    teta_v(:,1)=zeros(1,3);
     for k=2:0.7*l
         psi_k=psi6(k,:)';
         K_k = (P*psi_k)/(psi_k'*P*psi_k+lambda);

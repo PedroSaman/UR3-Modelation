@@ -1,7 +1,8 @@
 function [dataset]=Identification_data_Loader()
 % Load the mass of data and organize them to identification
 
-    load('~/Documents/Git/UR3-Modelation/MAT files/Data1.mat')
+    load('~/Documents/Git/UR3-Modelation/MAT files/PG1.mat')
+    %load('matlab.mat')
     dataset.tout = time;
     dataset.pos1 = q(:,1);
     dataset.pos2 = q(:,2);
