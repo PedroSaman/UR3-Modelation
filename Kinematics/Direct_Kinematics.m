@@ -2,7 +2,7 @@ function [R] = Direct_Kinematics(theta)
 %Given 6 Theta angles (deg), this function will return the position (meters) 
 %and orientation (deg) coordinates as a vector R = %[X,Y,Z,Rx,Ry,Rz]
 clc
-load ('DH_Toolbox.mat','dh');
+load('DH_Toolbox.mat','dh');
 
 theta = deg2rad(theta);
 
@@ -15,10 +15,10 @@ T5 = [cos(theta(1,5)), -sin(theta(1,5)), 0, dh(5-1,3); sin(theta(1,5))*cos(dh(5-
 T6 = [cos(theta(1,6)), -sin(theta(1,6)), 0, dh(6-1,3); sin(theta(1,6))*cos(dh(6-1,4)), cos(theta(1,6))*cos(dh(6-1,4)), -sin(dh(6-1,4)), -sin(dh(6-1,4))*dh(6,2); sin(theta(1,6))*sin(dh(6-1,4)), cos(theta(1,6))*sin(dh(6-1,4)), cos(dh(6-1,4)), cos(dh(6-1,4))*dh(6,2); 0, 0, 0, 1];
 
 %Correting Y and X axis
-T = [-1 0 0 0;0 -1 0 0; 0 0 1 0; 0 0 0 1];
+% T = [-1 0 0 0;0 -1 0 0; 0 0 1 0; 0 0 0 1];
 
 %Final homogeneous matrix
-Transf = T*T1*T2*T3*T4*T5*T6;
+Transf = T1*T2*T3*T4*T5*T6;
 
 
 
@@ -41,6 +41,6 @@ else
 end
 
 %Output
-R = [X,Y,Z,rad2deg(Rx),rad2deg(Ry),rad2deg(Rz)];
+R = [X,Y,Z,Rx,Ry,Rz];
 
 end
