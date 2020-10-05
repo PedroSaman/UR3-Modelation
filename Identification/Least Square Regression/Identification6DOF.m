@@ -84,8 +84,8 @@ function [theta1,theta2,theta3,theta4,theta5,theta6,FIT] = Identification6DOF()
     legend({'Estimated Torque','Measured Torque'})
     xlabel('Time (s)') 
     ylabel('Torque (N.m)')
-    clc
+
     %Curve Fitness
-      FIT = fitness([etau1,etau2,etau3,etau4,etau5,etau6],[input.tau1(0.7*l:end,:),input.tau2(0.7*l:end,:)...
-        ,input.tau3(0.7*l:end,:),input.tau4(0.7*l:end,:),input.tau5(0.7*l:end,:),input.tau6(0.7*l:end,:)])
+    FIT = fitness([etau1,etau2,etau3,etau4,etau5,etau6],[input.tau1(0.7*l:end,:),input.tau2(0.7*l:end,:)...
+      ,input.tau3(0.7*l:end,:),input.tau4(0.7*l:end,:),input.tau5(0.7*l:end,:),input.tau6(0.7*l:end,:)])
 end
