@@ -52,7 +52,7 @@ function [Dyn] = DOF6()
     lc3 = [-sym('lc3x','real');0;-sym('lc3z','real')];
     lc4 = [0;sym('lc4y','real');0];
     lc5 = [0;-sym('lc5y','real');0];
-    lc6 = [0;0;sym('lc6y','real')];
+    lc6 = [0;0;sym('lc6z','real')];
     l1 = [0;sym('l1y','real');0];
     l2 = [-sym('l2x','real');0;sym('l2z','real')];
     l3 = [-sym('l3x','real');0;-sym('l3z','real')];
@@ -103,33 +103,33 @@ function [Dyn] = DOF6()
     % Calculo do balanço de força e torque para cada link
     g6 = R0_6'*g0;
     f6 = m6*a_c6 - m6*g6;
-    t6 = - cross(f6,lc6) + I6*alpha6 + beta6*omega6 + cross(omega6,I6*omega6);
-    t6dyn = simplify(b6'*t6);
+    t6 = - cross(f6,lc6) + I6*alpha6 + cross(omega6,I6*omega6);
+    t6dyn = simplify(b6'*t6) + beta6*dq(6);
     
     g5 = R0_5'*g0;
     f5 = R5_6*f6 + m5*a_c5 - m5*g5;
-    t5 = R5_6*t6 - cross(f5,lc5) + cross(R5_6*f6,rc5_5) + I5*alpha5 + beta5*omega5 + cross(omega5,I5*omega5);
-    t5dyn = simplify(b5'*t5);
+    t5 = R5_6*t6 - cross(f5,lc5) + cross(R5_6*f6,rc5_5) + I5*alpha5 + cross(omega5,I5*omega5);
+    t5dyn = simplify(b5'*t5) + beta5*dq(5);
     
     g4 = R0_4'*g0;
     f4 = R4_5*f5 + m4*a_c4 - m4*g4;
-    t4 = R4_5*t5 - cross(f4,lc4) + cross(R4_5*f5,rc4_4) + I4*alpha4 + beta4*omega4 + cross(omega4,I4*omega4);
-    t4dyn = simplify(b4'*t4);
+    t4 = R4_5*t5 - cross(f4,lc4) + cross(R4_5*f5,rc4_4) + I4*alpha4 + cross(omega4,I4*omega4);
+    t4dyn = simplify(b4'*t4) + beta4*dq(4);
     
     g3 = R0_3'*g0;
     f3 = R3_4*f4 + m3*a_c3 - m3*g3;
-    t3 = R3_4*t4 - cross(f3,lc3) + cross(R3_4*f4,rc3_3) + I3*alpha3 + beta3*omega3 + cross(omega3,I3*omega3);
-    t3dyn = simplify(b3'*t3);
+    t3 = R3_4*t4 - cross(f3,lc3) + cross(R3_4*f4,rc3_3) + I3*alpha3 + cross(omega3,I3*omega3);
+    t3dyn = simplify(b3'*t3) + beta3*dq(3);
     
     g2 = R0_2'*g0;
     f2 = R2_3*f3 + m2*a_c2 - m2*g2;
-    t2 = R2_3*t3 - cross(f2,lc2) + cross(R2_3*f3,rc2_2) + I2*alpha2 + beta2*omega2 + cross(omega2,I2*omega2);
-    t2dyn = simplify(b2'*t2);
+    t2 = R2_3*t3 - cross(f2,lc2) + cross(R2_3*f3,rc2_2) + I2*alpha2 + cross(omega2,I2*omega2);
+    t2dyn = simplify(b2'*t2) + beta2*dq(2);
     
     g1 = R0_1'*g0;
     f1 = R1_2*f2 + m1*a_c1 - m1*g1;
-    t1 = R1_2*t2 - cross(f1,lc1) + cross(R1_2*f2,rc1_1) + I1*alpha1 + beta1*omega1 + cross(omega1,I1*omega1); 
-    t1dyn = simplify(b1'*t1);
+    t1 = R1_2*t2 - cross(f1,lc1) + cross(R1_2*f2,rc1_1) + I1*alpha1 + cross(omega1,I1*omega1); 
+    t1dyn = simplify(b1'*t1) + beta1*dq(1);
      
     Tau = [t1dyn;t2dyn;t3dyn;t4dyn;t5dyn;t6dyn];
     
