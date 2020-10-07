@@ -23,19 +23,7 @@ Y = Transf(2,4);
 Z = Transf(3,4);
 
 %Orientation Coordinates
-Rz = atan2(-1*Transf(3,1),sqrt(Transf(1,1).^2+Transf(2,1).^2));
-if (Rz == pi)
-    Ry = 0;
-    Rx = atan2(Transf(1,2),Transf(2,2));
-elseif (Rz == -pi)
-    Ry = 0;
-    Rx = -atan2(Transf(1,2),Transf(2,2));
-else
-    Ry = atan2(Transf(2,1)/cos(Rz),Transf(1,1)/cos(Rz));
-    Rx = atan2(Transf(3,2)/cos(Rz),Transf(3,3)/cos(Rz));
-end
-
+r = tr2rpy(Transf,'arm');
 %Output
-R = [X,Y,Z,Rx,Ry,Rz];
-
+R = [X,Y,Z,r(1),r(2),r(3)];
 end
